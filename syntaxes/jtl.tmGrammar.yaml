@@ -1,0 +1,114 @@
+scopeName: source.jtl
+patterns: 
+  - include: "#meta.function.definition.jtl"
+  - include: '#meta.body.function.definition.jtl'
+
+repository:
+  meta.function.definition.jtl:
+    begin: (jtl)\(
+    beginCaptures:
+      '1': { name: entity.name.function.definition.jtl }
+    end: \)
+    endCaptures: 
+      '0': { name: punctuation.terminator.jtl }
+    patterns:
+      - include: '#meta.function.definition.parameter.jtl'
+      - match: ','
+        name: 'punctuation.separator.parameters.jtl'
+
+  meta.function.definition.parameter.jtl:
+    match: '(\b(\w+)\b)\s+(\b(\w+)\b)'
+    captures:
+      '1': { name: 'storage.type.primitive.jtl' }
+      '3': { name: 'variable.parameter.jtl' }
+
+
+
+  meta.body.function.definition.jtl:
+    patterns:
+      - include: '#register-access.jtl'
+      - include: '#single-line-comment.jtl'
+      - include: '#label.jtl'
+      - include: '#goto.jtl'
+      - include: '#conditional-goto.jtl'
+      - include: '#reg.jtl'
+      - include: '#types.jtl'
+      - include: '#arithmetic.jtl'
+      - include: '#bitwise.jtl'
+      - include: '#number.jtl'
+      - include: '#logical.jtl'
+      - include: '#comparison.jtl'
+      - include: '#assignment.jtl'
+
+
+  register-access.jtl:
+    begin: '\b(A|F|X)<'
+    beginCaptures:
+      1: { name: 'storage.type.register.jtl' }
+    end: '>'
+    name: 'meta.register-access.jtl'
+    patterns:
+      - match: '\*?\w+'
+        name: 'storage.type.jtl'
+      - begin: '\('
+        end: '\)'
+        patterns:
+          - match: '\w+|\d+'
+            name: 'constant.numeric.integer.jtl'
+
+  access.reg.jtl:
+    match:   
+
+  reg.jtl:
+    match: X|A|F
+    name: keyword.reg
+
+  types.jtl:
+    match: regi|label|i8|i16|i32|i64|u8|u16|u32|u64|f32|f64|bool
+    captures: 
+      '0': {name: storage.type.primitive.jtl}
+
+  arithmetic.jtl:
+    match: '[+-/*%]'
+    name: 'keyword.operator.arithmetic.jtl'
+
+  bitwise.jtl:
+    match: '[&|^~]|<<|>>'
+    name: 'keyword.operator.bitwise.jtl'
+
+  number.jtl:
+    match: '\b\d+(\.\d+)?\b'
+    name: 'constant.numeric.jtl' 
+
+  comparison.jtl:
+    match: '==|!=|<=|>=|<|>'
+    name: 'keyword.operator.comparison.jtl'
+
+  logical.jtl:
+    match: '&&|\|\||!'
+    name: 'keyword.operator.logical.jtl'
+
+  single-line-comment.jtl:
+    begin: '//'
+    end: '\n'
+    name: 'comment.line.double-slash.jtl'
+
+  assignment.jtl:
+    match: '='
+    name: 'keyword.operator.assignment.jtl'
+
+  label.jtl:
+    match: '^(\w+):'
+    captures: 
+      '1': {name: 'entity.name.label.jtl'}
+
+  goto.jtl:
+    match: 'goto\s+(\w+)'
+    captures:
+      '1': {name: 'entity.name.goto-target.jtl'}
+
+  conditional-goto.jtl:
+    match: 'if\s+(.*?)\s+goto\s+(\w+)'
+    captures:
+      '1': {name: 'expression.conditional.jtl'}
+      '2': {name: 'entity.name.goto-target.jtl'}

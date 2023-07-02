@@ -1,0 +1,41 @@
+{
+  "name": "jtl",
+  "displayName": "JTL",
+  "description": "JTL Language VSCode support",
+  "version": "0.0.1",
+  "engines": {
+    "vscode": "^1.79.0"
+  },
+  "categories": [
+    "Programming Languages"
+  ],
+  "contributes": {
+    "languages": [
+      {
+        "id": "jtl",
+        "aliases": [
+          "JTL",
+          "jtl"
+        ],
+        "extensions": [ ".cpp" ],
+        "configuration": "./language-configuration.json"
+      }
+    ],
+    "grammars": [
+      {
+        "scopeName": "jtl-comment.injection",
+        "path": "./syntaxes/jtl.tmGrammar.json",
+        "injectTo": [ "source.cpp" ],
+        "embeddedLanguages": {
+          "meta.embedded.comment.jtl": "jtl"
+        },
+        "tokenTypes": {
+          "jtl-comment": "jtl"
+        }
+      }
+    ]
+  },
+  "devDependencies": {
+    "js-yaml": "^4.1.0"
+  }
+}

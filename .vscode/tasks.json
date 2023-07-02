@@ -1,0 +1,14 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+      {
+          "label": "yaml2json",
+          "type": "shell",
+          "command": "npx js-yaml syntaxes/jtl.tmGrammar.yaml > syntaxes/jtl.tmGrammar.json",
+          "group": {
+              "kind": "build",
+              "isDefault": true
+          }
+      }
+  ]
+}
